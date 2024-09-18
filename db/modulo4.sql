@@ -19,7 +19,7 @@ fk_teachers INT NOT NULL,
 FOREIGN KEY (fk_teachers) REFERENCES class (id_Classes)
 );
 
-INSERT INTO class (name, day, hour)
+INSERT INTO class (class, day, hour)
 VALUES
 ('Pilates', 'Lunes', '11'),
 ('Yoga', 'Miercoles', '9'),
@@ -34,11 +34,6 @@ VALUES
 ('Elena', 'Bonet', '1');
 
 
-
-
-SELECT class.name, class.day, class.hour, teachers.name, teachers.fk_teachers
-FROM class, teachers
-WHERE class.id_Classes = teachers.fk_teachers;
 
 
 
