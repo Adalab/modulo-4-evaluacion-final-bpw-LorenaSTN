@@ -1,0 +1,215 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "GymCode",
+    "version": "1.0.0",
+    "description": "API para la gestión de clases y profesores en un gimnasio"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5002",
+      "description": "Servidor de desarrollo"
+    }
+  ],
+  "paths": {
+    "/clases": {
+      "get": {
+        "summary": "Lista todas las clases",
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Class"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Crea una nueva clase",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewClass"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Clase y profesor añadidos correctamente"
+          },
+          "400": {
+            "description": "Campos obligatorios faltantes"
+          },
+          "500": {
+            "description": "Error Interno del Servidor"
+          }
+        }
+      }
+    },
+    "/clases/{id}": {
+      "put": {
+        "summary": "Actualiza información de una clase",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateClass"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Información actualizada"
+          },
+          "500": {
+            "description": "Error Interno del Servidor"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Elimina una clase",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Recurso eliminado"
+          },
+          "404": {
+            "description": "Clase no encontrada"
+          },
+          "500": {
+            "description": "Error al eliminar el recurso"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Class": {
+        "type": "object",
+        "properties": {
+          "id_Classes": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "day": {
+            "type": "string"
+          },
+          "hour": {
+            "type": "integer"
+          },
+          "teacher": {
+            "$ref": "#/components/schemas/Teacher"
+          }
+        }
+      },
+      "NewClass": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "day": {
+            "type": "string",
+            "enum": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
+          },
+          "hour": {
+            "type": "integer"
+          },
+          "teacher": {
+            "$ref": "#/components/schemas/NewTeacher"
+          }
+        },
+        "required": ["name", "day", "hour", "teacher"]
+      },
+      "UpdateClass": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "day": {
+            "type": "string",
+            "enum": ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"]
+          },
+          "hour": {
+            "type": "integer"
+          },
+          "teacher": {
+            "$ref": "#/components/schemas/Teacher"
+          }
+        }
+      },
+      "Teacher": {
+        "type": "object",
+        "properties": {
+          "id_Teachers": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "fk_teachers": {
+            "type": "integer"
+          }
+        }
+      },
+      "NewTeacher": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "fk_teachers": {
+            "type": "integer"
+          }
+        },
+        "required": ["name", "lastname", "fk_teachers"]
+      }
+    }
+  }
+}

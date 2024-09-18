@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2/promise");
+const swaggerUI = require("swagger-ui-express");
+const swaggerFile = require("./swagger.json");
 
 require("dotenv").config();
 
@@ -25,6 +27,8 @@ async function getDBConnection() {
   connection.connect();
   return connection;
 }
+
+server.use("/api-doc", swaggerUI.serve, swaggerUI.setup(swaggerFile));
 
 // Leer las entradas - ver clases
 server.get("/clases", async (req, res) => {
