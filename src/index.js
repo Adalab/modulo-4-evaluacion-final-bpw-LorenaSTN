@@ -3,6 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2/promise");
 
+require("dotenv").config();
+
 //Crear el servidor.
 const server = express();
 
@@ -17,18 +19,12 @@ server.listen(serverPort, () => {
   console.log(`Server listening at: http://localhost:${serverPort}`);
 });
 
-// async function getConnection() {
-//   const connection = await mysql.createConnection({
-//     host: 'localhost',
-//     database: 'empleados',
-//     user: 'root',
-//     password: 'tuPassword',
-//   });
-//   await connection.connect();
-
-//   console.log(
-//     `Conexión establecida con la base de datos (identificador=${connection.threadId})`
-//   );
-
-//   return connection;
-// }
+async function getConnection() {
+  const connection = await mysql.createConnection({
+    host: "localhost",
+    database: "empleados",
+    user: "root",
+    password: "tuPassword",
+  });
+  await connection.connect();
+}
